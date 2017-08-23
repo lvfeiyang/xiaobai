@@ -7,7 +7,7 @@ import (
 	// "github.com/lvfeiyang/guild/common/flog"
 )
 
-const dbName = "guild"
+const dbName = "leon-db"
 
 // const mongoUrl = "mongodb://xm:784826@10.0.75.1:27017"
 var mongoUrl string

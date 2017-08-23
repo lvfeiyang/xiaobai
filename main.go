@@ -38,7 +38,7 @@ func main() {
 func xiaobaiHandler(w http.ResponseWriter, r *http.Request)  {
 	paths := []string{
 		filepath.Join(htmlPath, "xiaobai", "html", "xb.html"),
-		// filepath.Join(htmlPath, "xiaobai", "html", "modal", "edit-event.tmpl"),
+		filepath.Join(htmlPath, "xiaobai", "html", "modal", "edit-event.tmpl"),
 	}
 	if t, err := template.ParseFiles(paths...); err != nil {
 		flog.LogFile.Println(err)

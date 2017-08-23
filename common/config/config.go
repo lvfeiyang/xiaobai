@@ -11,6 +11,8 @@ type config struct {
 	RedisUrl    string
 	MongoUrl    string
 	HtmlPath    string
+	QiniuAK string
+	QiniuSK string
 }
 
 var ConfigVal = &config{}
@@ -18,7 +20,7 @@ var ConfigVal = &config{}
 func Init() {
 	var filePath string
 	if "linux" == runtime.GOOS {
-		filePath = "/root/guild/config"
+		filePath = "/data/leon-wp/xiaobai/config"
 	} else {
 		filePath = "C:\\Users\\Administrator\\config" //lxm19
 	}

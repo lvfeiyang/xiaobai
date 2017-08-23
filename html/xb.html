@@ -14,6 +14,15 @@
 	<link href="xb-css/styles.css" rel="stylesheet">
 </head>
 <body>
+	<div class="jumbotron">
+		<div class="container">
+			<h1>小白的前半生</h1>
+			<p>填写简介</p>
+			<p><a class="btn btn-primary btn-lg" href="#" role="button"
+				data-toggle="modal" data-target="#editEvent" data-event-id="0">添加事件</a></p>
+		</div>
+	</div>
+
 	<div class="timeline animated">
 
 		<div class="timeline-row">
@@ -30,8 +39,16 @@
 		</div>
 
 	</div>
+
+	<div class="modal fade" id="editEvent" tabindex="-1" role="dialog" aria-labelledby="editEventLabel">
+		{{template "edit-event"}}
+	</div>
+
 	<script src="js/jquery-3.2.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/plupload.min.js"></script>
+	<script src="js/plupload.full.min.js"></script>
+	<script src="js/qiniu.min.js"></script>
 	<script src="xb-js/xb.js"></script>
 </body>
 </html>

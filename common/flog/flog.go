@@ -11,7 +11,7 @@ var LogFile = &log.Logger{}
 func Init() {
 	var filePath string
 	if "linux" == runtime.GOOS {
-		filePath = "/root/guild/log"
+		filePath = "/data/leon-wp/xiaobai/log"
 	} else {
 		filePath = "C:\\Users\\Administrator\\log"
 	}
