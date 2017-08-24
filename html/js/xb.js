@@ -11,71 +11,115 @@ function LeonInit() {
 				data:JSON.stringify({Id:eventId}),
 				type:'post',
 				dataType:'json',
+				async: false,
 				success:function(data) {
 					modal.find('#event-time').val(data.Time);
+					modal.find('#event-address').val(data.Address);
+					modal.find('#event-title').val(data.Title);
+					modal.find('#event-image img').attr('src', data.Image);
 					modal.find('#event-desc').text(data.Desc);
+					haveChgd = new Array();
 				}
 			});
 		} else {
 			modal.find('#event-time').val("");
+			modal.find('#event-address').val("");
+			modal.find('#event-title').val("");
+			modal.find('#event-image img').attr('src', '');
 			modal.find('#event-desc').text("");
+			haveChgd = new Array();
 		}
-		modal.find('.modal-footer .btn-primary').attr('onclick', "saveEvent('"+eventId+"')");
+		// if (modal.find('.modal-header #xb-event-id').text() != eventId) {
+		// 	modal.find('.modal-header #xb-event-id').text(eventId);
+		// 	modal.find('#chg-img').text(0);
+		// }
+		modal.find('.modal-header #xb-event-id').text(eventId);
+		modal.find('.modal-footer .btn-primary').attr('onclick', "putSave()");
 	});
 
-	var uploader = Qiniu.uploader({
-		runtimes: 'html5',                  // 上传模式
-		browse_button: $('#editEvent #event-image button'),         // 上传选择的点选按钮，必需
-		uptoken_url: '/msg/qiniu-token',         // Ajax请求uptoken的Url，强烈建议设置（服务端提供）
-		get_new_uptoken: false,             // 设置上传文件的时候是否每次都重新获取新的uptoken
-		domain: 'xiaobai',     // bucket域名，下载资源时用到，必需
-		container: $('#editEvent #event-image'),             // 上传区域DOM ID，默认是browser_button的父元素
-		max_file_size: '100mb',             // 最大文件体积限制
-		flash_swf_url: 'js/Moxie.swf',  //引入flash，相对路径
-		max_retries: 3,                     // 上传失败最大重试次数
-		dragdrop: false,                     // 关闭可拖曳上传
-		chunk_size: '4mb',                  // 分块上传时，每块的体积
-		auto_start: false,                  // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+	uploader = Qiniu.uploader({
+		runtimes: 'html5',
+		browse_button: 'event-image-add',
+		// uptoken_url: '/msg/qiniu-token',  // Ajax请求uptoken的Url，格式过于死板
+		uptoken_func: function() {
+			// var token = "";
+			$.ajax({
+				url:'/msg/qiniu-token',
+				contentType: 'application/json',
+				data:JSON.stringify({Bucket:'xiaobai'}),
+				type:'post',
+				dataType:'json',
+				async:false,
+				success:function(data) {
+					token = data.Token;
+				}
+			})
+			return token;
+		},
+		unique_names: true,
+		get_new_uptoken: false,
+		domain: 'xiaobai',
+		container: 'event-image',
+		max_file_size: '100mb',
+		max_retries: 3,
+		chunk_size: '4mb',
+		multi_selection: false,
+		filters: {
+			mime_types: [
+				{title:"图片文件", extensions:"jpg,png"}
+			]
+		},
+		auto_start: false,
 		init: {
 			'FilesAdded': function(up, files) {
 				plupload.each(files, function(file) {
 					// 文件添加进队列后，处理相关的事情
+					console.log("add file:", file.name);
+					var preloader = new mOxie.Image();
+					preloader.onload = function() {
+						var imgsrc = preloader.type=='image/jpeg' ? preloader.getAsDataURL('image/jpeg',80) : preloader.getAsDataURL();
+						$('#editEvent #event-image img').attr('src', imgsrc);
+						preloader.destroy();
+						preloader = null;
+					};
+					preloader.load(file.getSource());
+					// $('#editEvent #event-image #chg-img').text(1);
+					haveChgd.push('event-image');
 				});
 			},
-			'BeforeUpload': function(up, file) {
-				   // 每个文件上传前，处理相关的事情
-			},
-			'UploadProgress': function(up, file) {
-				   // 每个文件上传时，处理相关的事情
-			},
 			'FileUploaded': function(up, file, info) {
-				   // 每个文件上传成功后，处理相关的事情
-				   // 其中info是文件上传成功后，服务端返回的json，形式如：
-				   // {
-				   //    "hash": "Fh8xVqod2MQ1mocfI4S4KpRL6D98",
-				   //    "key": "gogopher.jpg"
-				   //  }
-				   // 查看简单反馈
-				   var domain = up.getOption('domain');
-				   var res = parseJSON(info);
-				   var sourceLink = domain +"/"+ res.key; 获取上传成功后的文件的Url
+				var domain = up.getOption('domain');
+				var res = JSON.parse(info.response);
+				var sourceLink = domain +"/"+ res.key; //获取上传成功后的文件的Url
+				saveEvent($('#editEvent .modal-header #xb-event-id').text());
 			},
 			'Error': function(up, err, errTip) {
-				   //上传出错时，处理相关的事情
-			},
-			'UploadComplete': function() {
-				   //队列文件处理完毕后，处理相关的事情
-			},
-			'Key': function(up, file) {
-				// 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-				// 该配置必须要在unique_names: false，save_key: false时才生效
-
-				var key = "";
-				// do something with key here
-				return key
+				//上传出错时，处理相关的事情
 			}
 		}
 	});
+
+	function bindChg() {
+		var chgId = $(this).attr('id');
+		if (-1 === haveChgd.indexOf(chgId))
+			haveChgd.push(chgId);
+	}
+	$('#editEvent #event-time').bind('input propertychange', bindChg);
+	$('#editEvent #event-address').bind('input propertychange', bindChg);
+	$('#editEvent #event-title').bind('input propertychange', bindChg);
+	$('#editEvent #event-desc').bind('input propertychange', bindChg);
+}
+function putSave() {
+	// if (1 == $('#editEvent #event-image #chg-img').text()) {
+	if (-1 === haveChgd.indexOf('event-image')) {
+		saveEvent($('#editEvent .modal-header #xb-event-id').text());
+	} else {
+		uploader.start();
+	}
+}
+var haveChgd = new Array();
+function saveEvent(eventId) {
+
 }
 (function() {
 	$(document).ready(function() {

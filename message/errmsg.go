@@ -2,7 +2,7 @@ package message
 
 import (
 	"encoding/json"
-	"github.com/lvfeiyang/guild/common/flog"
+	"github.com/lvfeiyang/xiaobai/common/flog"
 )
 
 const (

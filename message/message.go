@@ -3,8 +3,8 @@ package message
 import (
 	"encoding/hex"
 	"encoding/json"
-	"github.com/lvfeiyang/guild/common/flog"
-	"github.com/lvfeiyang/guild/common/session"
+	"github.com/lvfeiyang/xiaobai/common/flog"
+	"github.com/lvfeiyang/xiaobai/common/session"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -110,9 +110,9 @@ func (msg *Message) HandleMsg() *Message {
 		}
 	}
 	switch msg.Name {
-	// case "guild-save-req":
-		// return handleOneMsg(&GuildSaveReq{}, []byte(msg.Data), sess)
-	default:
-		return &Message{Name: "error-msg", Data: UnknowMsg()}
+		case "qiniu-token-req":
+			return handleOneMsg(&QiniuTokenReq{}, []byte(msg.Data), sess)
+		default:
+			return &Message{Name: "error-msg", Data: UnknowMsg()}
 	}
 }

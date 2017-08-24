@@ -2,7 +2,7 @@ package config
 
 import (
 	"encoding/json"
-	"github.com/lvfeiyang/guild/common/flog"
+	"github.com/lvfeiyang/xiaobai/common/flog"
 	"io/ioutil"
 	"runtime"
 )

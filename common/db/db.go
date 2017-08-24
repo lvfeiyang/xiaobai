@@ -1,10 +1,9 @@
 package db
 
 import (
-	"github.com/lvfeiyang/guild/common/config"
+	"github.com/lvfeiyang/xiaobai/common/config"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	// "github.com/lvfeiyang/guild/common/flog"
 )
 
 const dbName = "leon-db"
