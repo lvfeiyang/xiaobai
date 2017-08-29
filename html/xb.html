@@ -37,6 +37,20 @@
 				</div>
 			</div>
 		</div>
+		{{range .EventList}}
+		<div class="timeline-row">
+			<div class="timeline-time"><small>{{.Time}}</small>{{.Address}}</div>
+			<div class="timeline-icon"><div class="bg-primary"></div></div>
+			<div class="panel timeline-content">
+				<div class="panel-body">
+					<h2>{{.Title}}</h2>
+					<img class="img-responsive" src="{{.Image}}" alt="无图片">
+					<p>{{.Desc}}</p>
+					<button class="btn btn-default" type="button" data-toggle="modal" data-target="#editEvent" data-event-id={{.Id}}>修改</button>
+				</div>
+			</div>
+		</div>
+		{{end}}
 
 	</div>
 
@@ -48,6 +62,7 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/plupload.full.min.js"></script>
 	<script src="js/qiniu.min.js"></script>
+	<script src="laydate/laydate.js"></script>
 	<script src="xb-js/xb.js"></script>
 </body>
 </html>

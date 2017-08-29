@@ -4,6 +4,8 @@ import (
 	"github.com/lvfeiyang/xiaobai/common/config"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"strings"
+	"reflect"
 )
 
 const dbName = "leon-db"
@@ -109,4 +111,21 @@ func DeleteMany(cname string, bm bson.M) error {
 		return err
 	}
 	return nil
+}
+func ToMap(d interface{}) bson.M {
+	out := bson.M{}
+	val := reflect.ValueOf(d)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	typ := val.Type()
+	for i := 0; i < val.NumField(); i++ {
+		f := val.Field(i)
+		fv := f.Interface()
+		if fn := typ.Field(i).Name; fn != "Id" && fv != "" {
+			out[strings.ToLower(fn)] = fv
+		}
+	}
+	return out
 }

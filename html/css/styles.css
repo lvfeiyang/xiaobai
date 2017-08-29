@@ -203,6 +203,7 @@ body {
         .timeline .timeline-row .timeline-content:after {
           right: auto !important;
           left: -30px !important;
+          width: 30px;
           top: 32px; }
       .timeline .timeline-row:nth-child(odd) {
         padding-right: 0; }

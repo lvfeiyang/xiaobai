@@ -17,7 +17,7 @@ function LeonInit() {
 					modal.find('#event-address').val(data.Address);
 					modal.find('#event-title').val(data.Title);
 					modal.find('#event-image img').attr('src', data.Image);
-					modal.find('#event-desc').text(data.Desc);
+					modal.find('#event-desc').val(data.Desc);
 					haveChgd = new Array();
 				}
 			});
@@ -26,7 +26,7 @@ function LeonInit() {
 			modal.find('#event-address').val("");
 			modal.find('#event-title').val("");
 			modal.find('#event-image img').attr('src', '');
-			modal.find('#event-desc').text("");
+			modal.find('#event-desc').val("");
 			haveChgd = new Array();
 		}
 		// if (modal.find('.modal-header #xb-event-id').text() != eventId) {
@@ -77,6 +77,7 @@ function LeonInit() {
 					console.log("add file:", file.name);
 					var preloader = new mOxie.Image();
 					preloader.onload = function() {
+						preloader.downsize(300, 300); //压缩下显示 不影响上传
 						var imgsrc = preloader.type=='image/jpeg' ? preloader.getAsDataURL('image/jpeg',80) : preloader.getAsDataURL();
 						$('#editEvent #event-image img').attr('src', imgsrc);
 						preloader.destroy();
@@ -84,13 +85,15 @@ function LeonInit() {
 					};
 					preloader.load(file.getSource());
 					// $('#editEvent #event-image #chg-img').text(1);
-					haveChgd.push('event-image');
+					if (-1 === haveChgd.indexOf('event-image'))
+						haveChgd.push('event-image');
 				});
 			},
 			'FileUploaded': function(up, file, info) {
 				var domain = up.getOption('domain');
 				var res = JSON.parse(info.response);
-				var sourceLink = domain +"/"+ res.key; //获取上传成功后的文件的Url
+				var sourceLink = domain +"/"+ res.key; //上传成功后 域+名
+				$('#editEvent #event-image img').attr('src', sourceLink);
 				saveEvent($('#editEvent .modal-header #xb-event-id').text());
 			},
 			'Error': function(up, err, errTip) {
@@ -108,6 +111,10 @@ function LeonInit() {
 	$('#editEvent #event-address').bind('input propertychange', bindChg);
 	$('#editEvent #event-title').bind('input propertychange', bindChg);
 	$('#editEvent #event-desc').bind('input propertychange', bindChg);
+
+	laydate.render({
+		elem: '#editEvent #event-time'
+	});
 }
 function putSave() {
 	// if (1 == $('#editEvent #event-image #chg-img').text()) {
@@ -119,7 +126,48 @@ function putSave() {
 }
 var haveChgd = new Array();
 function saveEvent(eventId) {
-
+	var data = {Id:eventId}//new Object();
+	var dom = haveChgd.pop();
+	while (undefined !== dom) {
+		switch (dom) {
+			case 'event-time': {
+				data.Time = $('#editEvent #event-time').val();
+				break;
+			}
+			case 'event-address': {
+				data.Address = $('#editEvent #event-address').val();
+				break;
+			}
+			case 'event-title': {
+				data.Title = $('#editEvent #event-title').val();
+				break;
+			}
+			case 'event-image': {
+				data.Image = $('#editEvent #event-image img').attr('src');
+				break;
+			}
+			case 'event-desc': {
+				data.Desc = $('#editEvent #event-desc').val();
+				break;
+			}
+			default: {
+				break;
+			}
+		}
+		dom = haveChgd.pop();
+	}
+	// console.log(data);
+	$.ajax({
+		url: '/msg/event-save',
+		contentType: 'application/json',
+		data: JSON.stringify(data),
+		type: 'post',
+		dataType: 'json',
+		success:function(data) {
+			if (data.Result)
+				window.location.reload();
+		}
+	});
 }
 (function() {
 	$(document).ready(function() {
