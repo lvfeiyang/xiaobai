@@ -110,15 +110,15 @@ func (msg *Message) HandleMsg() *Message {
 		}
 	}
 	switch msg.Name {
-		case "qiniu-token-req":
-			return handleOneMsg(&QiniuTokenReq{}, []byte(msg.Data), sess)
-		case "event-info-req":
-			return handleOneMsg(&EventInfoReq{}, []byte(msg.Data), sess)
-		case "event-save-req":
-			return handleOneMsg(&EventSaveReq{}, []byte(msg.Data), sess)
-		case "event-delete-req":
-			return handleOneMsg(&EventDeleteReq{}, []byte(msg.Data), sess)
-		default:
-			return &Message{Name: "error-msg", Data: UnknowMsg()}
+	case "qiniu-token-req":
+		return handleOneMsg(&QiniuTokenReq{}, []byte(msg.Data), sess)
+	case "event-info-req":
+		return handleOneMsg(&EventInfoReq{}, []byte(msg.Data), sess)
+	case "event-save-req":
+		return handleOneMsg(&EventSaveReq{}, []byte(msg.Data), sess)
+	case "event-delete-req":
+		return handleOneMsg(&EventDeleteReq{}, []byte(msg.Data), sess)
+	default:
+		return &Message{Name: "error-msg", Data: UnknowMsg()}
 	}
 }

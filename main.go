@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/lvfeiyang/xiaobai/common/flog"
 	"github.com/lvfeiyang/xiaobai/common/config"
 	"github.com/lvfeiyang/xiaobai/common/db"
+	"github.com/lvfeiyang/xiaobai/common/flog"
 	"github.com/lvfeiyang/xiaobai/message"
+	"html/template"
 	"net/http"
 	"path/filepath"
-	"html/template"
 )
 
 var htmlPath string
@@ -21,7 +21,7 @@ func main() {
 	jsFiles := filepath.Join(htmlPath, "sfk", "js")
 	cssFiles := filepath.Join(htmlPath, "sfk", "css")
 	fontsFiles := filepath.Join(htmlPath, "sfk", "fonts")
-	layDateFiles := filepath.Join(htmlPath, "sfk", "layDate")
+	layDateFiles := filepath.Join(htmlPath, "sfk", "laydate")
 	xbjsFiles := filepath.Join(htmlPath, "xiaobai", "html", "js")
 	xbcssFiles := filepath.Join(htmlPath, "xiaobai", "html", "css")
 
@@ -37,7 +37,7 @@ func main() {
 	http.HandleFunc("/xiaobai", xiaobaiHandler)
 	flog.LogFile.Fatal(http.ListenAndServe(":7070", nil))
 }
-func xiaobaiHandler(w http.ResponseWriter, r *http.Request)  {
+func xiaobaiHandler(w http.ResponseWriter, r *http.Request) {
 	paths := []string{
 		filepath.Join(htmlPath, "xiaobai", "html", "xb.html"),
 		filepath.Join(htmlPath, "xiaobai", "html", "modal", "edit-event.tmpl"),
@@ -46,12 +46,12 @@ func xiaobaiHandler(w http.ResponseWriter, r *http.Request)  {
 		flog.LogFile.Println(err)
 	} else {
 		type oneView struct {
-			Id string
-			Time string
+			Id      string
+			Time    string
 			Address string
-			Title string
-			Image string
-			Desc string
+			Title   string
+			Image   string
+			Desc    string
 		}
 		var view struct {
 			EventList []oneView

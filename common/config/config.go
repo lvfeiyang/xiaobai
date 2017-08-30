@@ -8,11 +8,13 @@ import (
 )
 
 type config struct {
-	RedisUrl    string
-	MongoUrl    string
-	HtmlPath    string
-	QiniuAK string
-	QiniuSK string
+	RedisUrl string
+	MongoUrl string
+	HtmlPath string
+	QiniuAK  string
+	QiniuSK  string
+	WxAppid  string
+	WxSecret string
 }
 
 var ConfigVal = &config{}

@@ -1,14 +1,14 @@
 package message
 
 import (
-	"github.com/qiniu/api.v7/auth/qbox"
-	"github.com/qiniu/api.v7/storage"
+	"encoding/json"
 	"github.com/lvfeiyang/xiaobai/common/config"
 	"github.com/lvfeiyang/xiaobai/common/session"
-	"encoding/json"
+	"github.com/qiniu/api.v7/auth/qbox"
+	"github.com/qiniu/api.v7/storage"
 )
 
-func QiniuToken(bucket string) string {
+func qiniuToken(bucket string) string {
 	putPolicy := storage.PutPolicy{
 		Scope: bucket,
 	}
@@ -33,7 +33,7 @@ func (rsp *QiniuTokenRsp) Encode() ([]byte, error) {
 	return json.Marshal(rsp)
 }
 func (req *QiniuTokenReq) Handle(sess *session.Session) ([]byte, error) {
-	token := QiniuToken(req.Bucket)
+	token := qiniuToken(req.Bucket)
 	rsp := &QiniuTokenRsp{token}
 	if rspJ, err := rsp.Encode(); err != nil {
 		return nil, err

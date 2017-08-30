@@ -12,11 +12,11 @@ type EventInfoReq struct {
 	Id string
 }
 type EventInfoRsp struct {
-	Time string
+	Time    string
 	Address string
-	Title string
-	Image string
-	Desc string
+	Title   string
+	Image   string
+	Desc    string
 }
 
 func (req *EventInfoReq) GetName() (string, string) {
@@ -55,12 +55,12 @@ func ImgUrlAddQn(img string) string {
 }
 
 type EventSaveReq struct {
-	Id        string
-	Time string
+	Id      string
+	Time    string
 	Address string
-	Title string
-	Image string
-	Desc string
+	Title   string
+	Image   string
+	Desc    string
 }
 type EventSaveRsp struct {
 	Result bool
@@ -76,12 +76,22 @@ func (rsp *EventSaveRsp) Encode() ([]byte, error) {
 	return json.Marshal(rsp)
 }
 func (req *EventSaveReq) Handle(sess *session.Session) ([]byte, error) {
-	reqToDb := func (req *EventSaveReq, e *db.Event) {
-		if "" != req.Time {e.Time = req.Time}
-		if "" != req.Address {e.Address = req.Address}
-		if "" != req.Title {e.Title = req.Title}
-		if "" != req.Image {e.Image = req.Image}
-		if "" != req.Desc {e.Desc = req.Desc}
+	reqToDb := func(req *EventSaveReq, e *db.Event) {
+		if "" != req.Time {
+			e.Time = req.Time
+		}
+		if "" != req.Address {
+			e.Address = req.Address
+		}
+		if "" != req.Title {
+			e.Title = req.Title
+		}
+		if "" != req.Image {
+			e.Image = req.Image
+		}
+		if "" != req.Desc {
+			e.Desc = req.Desc
+		}
 		return
 	}
 

@@ -181,3 +181,16 @@ func (s *Session) Apply() uint64 {
 	}
 	return 0
 }
+
+//redis cache
+func PutCache(key, in string, expires uint) error {
+	client := ConnRedis()
+	defer client.Close()
+	_, err := client.Set(key, in, time.Duration(expires)*time.Second).Result()
+	return err
+}
+func GetCache(key string) (string, error) {
+	client := ConnRedis()
+	defer client.Close()
+	return client.Get(key).Result()
+}

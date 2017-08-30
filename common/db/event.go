@@ -3,12 +3,12 @@ package db
 import "gopkg.in/mgo.v2/bson"
 
 type Event struct {
-	Id bson.ObjectId `bson:"_id,omitempty"`
-	Time string
+	Id      bson.ObjectId `bson:"_id,omitempty"`
+	Time    string
 	Address string
-	Title string
-	Image string
-	Desc string
+	Title   string
+	Image   string
+	Desc    string
 }
 
 const eventCName = "event"
@@ -22,7 +22,11 @@ func (e *Event) Save() error {
 }
 func (e *Event) UpdateById() error {
 	ud := ToMap(e)
-	return UpdateOne(eventCName, e.Id, bson.M{"$set": ud})
+	if 0 == len(ud) {
+		return nil
+	} else {
+		return UpdateOne(eventCName, e.Id, bson.M{"$set": ud})
+	}
 }
 func FindAllEvents() ([]Event, error) {
 	var es []Event

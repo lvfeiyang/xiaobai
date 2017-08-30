@@ -4,8 +4,8 @@ import (
 	"github.com/lvfeiyang/xiaobai/common/config"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"strings"
 	"reflect"
+	"strings"
 )
 
 const dbName = "leon-db"
