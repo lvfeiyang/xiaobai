@@ -118,6 +118,8 @@ func (msg *Message) HandleMsg() *Message {
 		return handleOneMsg(&EventSaveReq{}, []byte(msg.Data), sess)
 	case "event-delete-req":
 		return handleOneMsg(&EventDeleteReq{}, []byte(msg.Data), sess)
+	case "wx-config-req":
+		return handleOneMsg(&WxConfigReq{}, []byte(msg.Data), sess)
 	default:
 		return &Message{Name: "error-msg", Data: UnknowMsg()}
 	}

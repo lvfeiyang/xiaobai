@@ -115,6 +115,29 @@ function LeonInit() {
 	laydate.render({
 		elem: '#editEvent #event-time'
 	});
+
+	if (isWx()) {
+		$.ajax({
+			url: '/msg/wx-config',
+			contentType: 'application/json',
+			data: JSON.stringify({Url:encodeURIComponent(location.href.split('#')[0])}),
+			type: 'post',
+			dataType: 'json',
+			success:function(data) {
+				var cfg = data;
+				cfg.debug = false;
+				cfg.jsApiList = ['chooseImage', 'previewImage', 'uploadImage', 'downloadImage'];
+				wx.config(cfg);
+			}
+		});
+	}
+}
+function isWx() {
+	if ('1' === $('#isWx').text()) {
+		return true;
+	} else {
+		false
+	}
 }
 function putSave() {
 	// if (1 == $('#editEvent #event-image #chg-img').text()) {

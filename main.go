@@ -8,6 +8,7 @@ import (
 	"html/template"
 	"net/http"
 	"path/filepath"
+	"regexp"
 )
 
 var htmlPath string
@@ -55,6 +56,14 @@ func xiaobaiHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		var view struct {
 			EventList []oneView
+			WxFlag bool
+		}
+		if uas, ok := r.Header["User-Agent"]; ok {
+			for _, ua := range uas {
+				if matched, _ := regexp.MatchString("MicroMessenger.*", ua); matched {
+					view.WxFlag = true
+				}
+			}
 		}
 		es, err := db.FindAllEvents()
 		if err != nil {

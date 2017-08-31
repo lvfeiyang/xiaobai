@@ -22,7 +22,7 @@ var ConfigVal = &config{}
 func Init() {
 	var filePath string
 	if "linux" == runtime.GOOS {
-		filePath = "/data/leon-wp/xiaobai/config"
+		filePath = "/root/workspace/xiaobai/config"
 	} else {
 		filePath = "C:\\Users\\Administrator\\config" //lxm19
 	}
