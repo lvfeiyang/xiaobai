@@ -114,7 +114,7 @@ function LeonInit() {
 
 	laydate.render({
 		elem: '#editEvent #event-time',
-		change: function(value, date, endDate) {
+		done: function(value, date, endDate) {
 			if (-1 === haveChgd.indexOf('event-time'))
 				haveChgd.push('event-time');
 		}
@@ -140,7 +140,7 @@ function isWx() {
 	if ('1' === $('#isWx').text()) {
 		return true;
 	} else {
-		false
+		return false;
 	}
 }
 function putSave() {

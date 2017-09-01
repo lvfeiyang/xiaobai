@@ -51,7 +51,7 @@ func ImgUrlAddQn(img string) string {
 			return string(re.ReplaceAll([]byte(img), []byte(url+"/")))
 		}
 	}
-	return img
+	return img + "?imageView2/4/w/300/h/300"
 }
 
 type EventSaveReq struct {

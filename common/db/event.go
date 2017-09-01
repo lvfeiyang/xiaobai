@@ -30,7 +30,7 @@ func (e *Event) UpdateById() error {
 }
 func FindAllEvents() ([]Event, error) {
 	var es []Event
-	err := FindMany(eventCName, bson.M{}, &es)
+	err := FindMany(eventCName, bson.M{}, &es, "time")
 	return es, err
 }
 func DelEventById(id bson.ObjectId) error {

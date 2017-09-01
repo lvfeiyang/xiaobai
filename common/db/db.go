@@ -73,7 +73,7 @@ func UpdateOne(cname string, id bson.ObjectId, data interface{}) error {
 	return nil
 }
 
-func FindMany(cname string, bm bson.M, data interface{}) error {
+func FindMany(cname string, bm bson.M, data interface{}, sort string) error {
 	session, err := mgo.Dial(mongoUrl)
 	if err != nil {
 		return err
@@ -81,7 +81,11 @@ func FindMany(cname string, bm bson.M, data interface{}) error {
 	defer session.Close()
 
 	c := session.DB(dbName).C(cname)
-	if err := c.Find(bm).All(data); err != nil {
+	q := c.Find(bm)
+	if "" != sort {
+		q = q.Sort(sort)
+	}
+	if err := q.All(data); err != nil {
 		return err
 	}
 	return nil
