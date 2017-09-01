@@ -113,7 +113,11 @@ function LeonInit() {
 	$('#editEvent #event-desc').bind('input propertychange', bindChg);
 
 	laydate.render({
-		elem: '#editEvent #event-time'
+		elem: '#editEvent #event-time',
+		change: function(value, date, endDate) {
+			if (-1 === haveChgd.indexOf('event-time'))
+				haveChgd.push('event-time');
+		}
 	});
 
 	if (isWx()) {

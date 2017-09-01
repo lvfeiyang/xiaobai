@@ -36,7 +36,7 @@ func main() {
 	http.Handle("/msg/", &message.Message{})
 
 	http.HandleFunc("/xiaobai", xiaobaiHandler)
-	flog.LogFile.Fatal(http.ListenAndServe(":7070", nil))
+	flog.LogFile.Fatal(http.ListenAndServe(":80", nil))
 }
 func xiaobaiHandler(w http.ResponseWriter, r *http.Request) {
 	paths := []string{
