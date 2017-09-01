@@ -57,6 +57,7 @@ func xiaobaiHandler(w http.ResponseWriter, r *http.Request) {
 		var view struct {
 			EventList []oneView
 			WxFlag bool
+			CanModify bool
 		}
 		if uas, ok := r.Header["User-Agent"]; ok {
 			for _, ua := range uas {
@@ -64,6 +65,13 @@ func xiaobaiHandler(w http.ResponseWriter, r *http.Request) {
 					view.WxFlag = true
 				}
 			}
+		}
+		if err := r.ParseForm(); err != nil {
+			flog.LogFile.Println(err)
+		}
+		user := r.Form.Get("user")
+		if "admin" == user {
+			view.CanModify = true
 		}
 		es, err := db.FindAllEvents()
 		if err != nil {
