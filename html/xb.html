@@ -27,6 +27,7 @@
 
 	<div class="timeline animated">
 
+		{{$CanModify := .CanModify}}
 		{{range .EventList}}
 		<div class="timeline-row">
 			<div class="timeline-time"><small>{{.Time}}</small>{{.Address}}</div>
@@ -36,7 +37,7 @@
 					<h2>{{.Title}}</h2>
 					<img class="img-responsive" src="{{.Image}}" alt="无图片">
 					<p>{{.Desc}}</p>
-					{{if .CanModify}}
+					{{if $CanModify}}
 					<button class="btn btn-default" type="button" data-toggle="modal" data-target="#editEvent" data-event-id={{.Id}}>修改</button>
 					{{end}}
 				</div>
