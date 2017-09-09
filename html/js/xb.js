@@ -37,6 +37,13 @@ function LeonInit() {
 		modal.find('.modal-footer .btn-primary').attr('onclick', "putSave()");
 	});
 
+	$('#bigImg').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget);
+		var imgSrc = button.data('img-src');
+		var modal = $(this);
+		modal.find('img').attr('src', imgSrc);
+	});
+
 	uploader = Qiniu.uploader({
 		runtimes: 'html5',
 		browse_button: 'event-image-add',
