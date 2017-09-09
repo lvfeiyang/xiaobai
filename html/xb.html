@@ -35,7 +35,8 @@
 			<div class="panel timeline-content">
 				<div class="panel-body">
 					<h2>{{.Title}}</h2>
-					<img class="img-responsive" src="{{.Image}}" alt="无图片" data-toggle="modal" data-target="#bigImg" data-img-src="{{.Image}}" />
+					<img class="img-responsive" src="{{.Image}}" alt="无图片" />
+					<!-- <img class="img-responsive" src="{{.Image}}" alt="无图片" data-toggle="modal" data-target="#bigImg" data-img-src="{{.Image}}" /> -->
 					<p>{{.Desc}}</p>
 					{{if $CanModify}}
 					<button class="btn btn-default" type="button" data-toggle="modal" data-target="#editEvent" data-event-id={{.Id}}>修改</button>
