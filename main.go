@@ -36,7 +36,7 @@ func main() {
 		http.Handle("/fonts/", http.StripPrefix("/fonts/", http.FileServer(http.Dir(fontsFiles))))
 		http.Handle("/laydate/", http.StripPrefix("/laydate/", http.FileServer(http.Dir(layDateFiles))))
 	} else {
-		httpAddr = ":"+pjtCfg.HttpPort
+		httpAddr = pjtCfg.Http
 	}
 
 	xbjsFiles := filepath.Join(htmlPath, "xiaobai", "html", "js")
