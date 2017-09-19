@@ -6,7 +6,7 @@ function LeonInit() {
 		//ajax here
 		if (0 != eventId) {
 			$.ajax({
-				url:'/msg/event-info',
+				url:'/xiaobai/msg/event-info',
 				contentType:'application/json',
 				data:JSON.stringify({Id:eventId}),
 				type:'post',
@@ -51,7 +51,7 @@ function LeonInit() {
 		uptoken_func: function() {
 			// var token = "";
 			$.ajax({
-				url:'/msg/qiniu-token',
+				url:'/xiaobai/msg/qiniu-token',
 				contentType: 'application/json',
 				data:JSON.stringify({Bucket:'xiaobai'}),
 				type:'post',
@@ -129,7 +129,7 @@ function LeonInit() {
 
 	if (isWx()) {
 		$.ajax({
-			url: '/msg/wx-config',
+			url: '/xiaobai/msg/wx-config',
 			contentType: 'application/json',
 			data: JSON.stringify({Url:encodeURIComponent(location.href.split('#')[0])}),
 			type: 'post',
@@ -192,7 +192,7 @@ function saveEvent(eventId) {
 	}
 	// console.log(data);
 	$.ajax({
-		url: '/msg/event-save',
+		url: '/xiaobai/msg/event-save',
 		contentType: 'application/json',
 		data: JSON.stringify(data),
 		type: 'post',

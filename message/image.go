@@ -2,8 +2,8 @@ package message
 
 import (
 	"encoding/json"
-	"github.com/lvfeiyang/xiaobai/common/config"
-	"github.com/lvfeiyang/xiaobai/common/session"
+	"github.com/lvfeiyang/proxy/common/config"
+	"github.com/lvfeiyang/proxy/common/session"
 	"github.com/qiniu/api.v7/auth/qbox"
 	"github.com/qiniu/api.v7/storage"
 )

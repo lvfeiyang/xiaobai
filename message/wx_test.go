@@ -1,7 +1,7 @@
 package message
 
 import "testing"
-import "github.com/lvfeiyang/xiaobai/common/flog"
+import "github.com/lvfeiyang/proxy/common/flog"
 
 func TestGenerateNoncestr(t *testing.T) {
 	flog.Init()

@@ -1,6 +1,9 @@
 package db
 
-import "gopkg.in/mgo.v2/bson"
+import (
+	"gopkg.in/mgo.v2/bson"
+	"github.com/lvfeiyang/proxy/common/db"
+)
 
 type Event struct {
 	Id      bson.ObjectId `bson:"_id,omitempty"`
@@ -14,25 +17,25 @@ type Event struct {
 const eventCName = "event"
 
 func (e *Event) GetById(id bson.ObjectId) error {
-	return FindOneById(eventCName, id, e)
+	return db.FindOneById(eventCName, id, e)
 }
 func (e *Event) Save() error {
 	e.Id = bson.NewObjectId()
-	return Create(eventCName, e)
+	return db.Create(eventCName, e)
 }
 func (e *Event) UpdateById() error {
-	ud := ToMap(e)
+	ud := db.ToMap(e)
 	if 0 == len(ud) {
 		return nil
 	} else {
-		return UpdateOne(eventCName, e.Id, bson.M{"$set": ud})
+		return db.UpdateOne(eventCName, e.Id, bson.M{"$set": ud})
 	}
 }
 func FindAllEvents() ([]Event, error) {
 	var es []Event
-	err := FindMany(eventCName, bson.M{}, &es, "time")
+	err := db.FindMany(eventCName, bson.M{}, &es, "time")
 	return es, err
 }
 func DelEventById(id bson.ObjectId) error {
-	return DeleteOne(eventCName, id)
+	return db.DeleteOne(eventCName, id)
 }
