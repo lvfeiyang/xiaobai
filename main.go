@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/lvfeiyang/proxy/common"
 	"github.com/lvfeiyang/proxy/common/config"
 	"github.com/lvfeiyang/proxy/common/db"
-	xbDb "github.com/lvfeiyang/xiaobai/common/db"
 	"github.com/lvfeiyang/proxy/common/flog"
-	// "github.com/lvfeiyang/proxy/message"
+	xbDb "github.com/lvfeiyang/xiaobai/common/db"
 	"github.com/lvfeiyang/xiaobai/message" //xbMsg
 	"html/template"
 	"net/http"
@@ -20,6 +20,7 @@ func main() {
 	flog.Init()
 	config.Init()
 	db.Init()
+	message.Init()
 	httpAddr := ":80"
 	htmlPath = config.ConfigVal.HtmlPath
 	if pjtCfg = config.GetProjectConfig("xiaobai"); "" == pjtCfg.Name {
@@ -35,6 +36,8 @@ func main() {
 		http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir(cssFiles))))
 		http.Handle("/fonts/", http.StripPrefix("/fonts/", http.FileServer(http.Dir(fontsFiles))))
 		http.Handle("/laydate/", http.StripPrefix("/laydate/", http.FileServer(http.Dir(layDateFiles))))
+
+		http.Handle("/xiaobai/msg/", &message.LocMessage{})
 	} else {
 		httpAddr = pjtCfg.Http
 	}
@@ -44,7 +47,7 @@ func main() {
 	http.Handle("/xiaobai/js/", http.StripPrefix("/xiaobai/js/", http.FileServer(http.Dir(xbjsFiles))))
 	http.Handle("/xiaobai/css/", http.StripPrefix("/xiaobai/css/", http.FileServer(http.Dir(xbcssFiles))))
 
-	http.Handle("/xiaobai/msg/", &message.LocMessage{})
+	go common.ListenTcp(pjtCfg.Tcp, message.MhMap)
 
 	http.HandleFunc("/xiaobai", xiaobaiHandler)
 	flog.LogFile.Fatal(http.ListenAndServe(httpAddr, nil))
@@ -68,7 +71,7 @@ func xiaobaiHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		var view struct {
 			EventList []oneView
-			WxFlag bool
+			WxFlag    bool
 			CanModify bool
 		}
 		if uas, ok := r.Header["User-Agent"]; ok {

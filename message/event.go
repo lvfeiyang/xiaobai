@@ -2,8 +2,8 @@ package message
 
 import (
 	"encoding/json"
-	"github.com/lvfeiyang/xiaobai/common/db"
 	"github.com/lvfeiyang/proxy/common/session"
+	"github.com/lvfeiyang/xiaobai/common/db"
 	"gopkg.in/mgo.v2/bson"
 	"regexp"
 )

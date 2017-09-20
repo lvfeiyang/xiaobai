@@ -1,21 +1,29 @@
 package message
 
-import(
+import (
 	"github.com/lvfeiyang/proxy/message"
 	"net/http"
 )
 
-type LocMessage message.Message
-func (msg *LocMessage) ServeHTTP(w http.ResponseWriter, r *http.Request)  {
-	mhMap := map[string]message.MsgHandleIF{
-		"qiniu-token-req": &QiniuTokenReq{},
-		"event-info-req": &EventInfoReq{},
-		"event-save-req": &EventSaveReq{},
+var MhMap map[string]message.MsgHandleIF
+
+func Init() {
+	MhMap = map[string]message.MsgHandleIF{
+		"qiniu-token-req":  &QiniuTokenReq{},
+		"event-info-req":   &EventInfoReq{},
+		"event-save-req":   &EventSaveReq{},
 		"event-delete-req": &EventDeleteReq{},
-		"wx-config-req": &WxConfigReq{},
+		"wx-config-req":    &WxConfigReq{},
 	}
-	message.GeneralServeHTTP((*message.Message)(msg), w, r, mhMap)
+	return
 }
+
+type LocMessage message.Message
+
+func (msg *LocMessage) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	message.GeneralServeHTTP((*message.Message)(msg), w, r, MhMap)
+}
+
 /*func MsgMapHandle(name string) message.MsgHandleIF {
 
 }*/
