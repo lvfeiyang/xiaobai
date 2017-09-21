@@ -1,8 +1,8 @@
 package db
 
 import (
-	"gopkg.in/mgo.v2/bson"
 	"github.com/lvfeiyang/proxy/common/db"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type Event struct {
