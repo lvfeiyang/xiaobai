@@ -16,7 +16,7 @@ function LeonInit() {
 					modal.find('#event-time').val(data.Time);
 					modal.find('#event-address').val(data.Address);
 					modal.find('#event-title').val(data.Title);
-					modal.find('#event-image img').attr('src', data.Image);
+					modal.find('#event-image img').attr('src', data.Image + "?imageView2/4/w/300/h/300");
 					modal.find('#event-desc').val(data.Desc);
 					haveChgd = new Array();
 				}
@@ -213,7 +213,7 @@ function randomChange() {
 	var rR = parseInt(11*Math.random()-5, 10);
 	var rTx = parseInt(21*Math.random()-10, 10);
 	var rTy = parseInt(21*Math.random()-10, 10);
-	var rS = parseInt(7*Math.random()+7, 10)/10;
+	var rS = parseInt(5*Math.random()+8, 10)/10;
 	$(this).css('transform', 'rotate('+rR+'deg) translate('+rTx+'px, '+rTy+'px) scale('+rS+', '+rS+')');
 }
 function toBig(index) {
@@ -221,7 +221,6 @@ function toBig(index) {
 	$('.big-img-box').removeClass('hidden').addClass('show');
 	var swiper = new Swiper('.swiper-container', {
 		zoom: true,
-		pagination: '.swiper-pagination',
 		nextButton: '.swiper-button-next',
 		prevButton: '.swiper-button-prev'
 	});
