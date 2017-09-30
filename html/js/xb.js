@@ -203,24 +203,30 @@ function saveEvent(eventId) {
 		}
 	});
 }
-(function() {
-	$(document).ready(function() {
-		LeonInit();
+$(function() {
+	LeonInit();
 
-		var timelineAnimate;
-		timelineAnimate = function(elem) {
-			return $(".timeline.animated .timeline-row").each(function(i) {
-				var bottom_of_object, bottom_of_window;
-				bottom_of_object = $(this).position().top + $(this).outerHeight();
-				bottom_of_window = $(window).scrollTop() + $(window).height();
-				if (bottom_of_window > bottom_of_object) {
-					return $(this).addClass("active");
-				}
-			});
-		};
-		timelineAnimate();
-		return $(window).scroll(function() {
-			return timelineAnimate();
-		});
+	// 随机变换图片
+	$('.div-img').each(randomChange);
+})
+function randomChange() {
+	var rR = parseInt(11*Math.random()-5, 10);
+	var rTx = parseInt(21*Math.random()-10, 10);
+	var rTy = parseInt(21*Math.random()-10, 10);
+	var rS = parseInt(7*Math.random()+7, 10)/10;
+	$(this).css('transform', 'rotate('+rR+'deg) translate('+rTx+'px, '+rTy+'px) scale('+rS+', '+rS+')');
+}
+function toBig(index) {
+	$('.div-img-box').removeClass('show').addClass('hidden');
+	$('.big-img-box').removeClass('hidden').addClass('show');
+	var swiper = new Swiper('.swiper-container', {
+		zoom: true,
+		pagination: '.swiper-pagination',
+		nextButton: '.swiper-button-next',
+		prevButton: '.swiper-button-prev'
 	});
-}).call(this);
+}
+function toSmall() {
+	$('.big-img-box').removeClass('show').addClass('hidden');
+	$('.div-img-box').removeClass('hidden').addClass('show');
+}

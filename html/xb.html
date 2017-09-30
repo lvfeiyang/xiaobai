@@ -6,11 +6,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="">
 	<meta name="author" content="leon">
-
 	<title>小白</title>
-
-	<!-- Bootstrap -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/swiper.min.css" rel="stylesheet">
 	<link href="xiaobai/css/styles.css" rel="stylesheet">
 </head>
 <body>
@@ -25,34 +23,52 @@
 		</div>
 	</div>
 
-	<div class="timeline animated">
-
-		{{$CanModify := .CanModify}}
-		{{range .EventList}}
-		<div class="timeline-row">
-			<div class="timeline-time"><small>{{.Time}}</small>{{.Address}}</div>
-			<div class="timeline-icon"><div class="bg-primary"></div></div>
-			<div class="panel timeline-content">
-				<div class="panel-body">
-					<h2>{{.Title}}</h2>
-					<img class="img-responsive" src="{{.Image}}" alt="无图片" />
-					<!-- <img class="img-responsive" src="{{.Image}}" alt="无图片" data-toggle="modal" data-target="#bigImg" data-img-src="{{.Image}}" /> -->
-					<p>{{.Desc}}</p>
+	{{$CanModify := .CanModify}}
+	<div class="div-img-box">
+		{{range $i, $_ := .EventList}}
+		<div class="thumbnail div-img">
+			<h2>{{.Title}}</h2>
+			<img src="{{.Image}}" alt="图片被狗吃了" onclick="toBig({{$i}})" />
+			<p>{{.Desc}}</p>
+			<div class="container-fluid">
+				<div class="row">
 					{{if $CanModify}}
-					<button class="btn btn-default" type="button" data-toggle="modal" data-target="#editEvent" data-event-id={{.Id}}>修改</button>
+					<button class="col-xs-3 btn btn-default" type="button"
+						data-toggle="modal" data-target="#editEvent" data-event-id={{.Id}}>修改</button>
 					{{end}}
+					<p class="{{if $CanModify}}col-xs-9{{else}}col-xs-12{{end}} text-right"><small>{{.Time}}</small>&nbsp;&nbsp;{{.Address}}</p>
 				</div>
 			</div>
 		</div>
 		{{end}}
-
+	</div>
+	<div class="swiper-container big-img-box hidden">
+		<button type="button" class="close" onclick="toSmall()"><span>&times;</span></button>
+		<div class="swiper-wrapper">
+			{{range .EventList}}
+			<div class="swiper-slide">
+				<div class="swiper-zoom-container">
+					<figure>
+						<img src="{{.Image}}" alt="图片被狗吃了" />
+						<figcaption class="img-caption">
+							<h4 style="text-align:left">{{.Title}}</h2>
+							<p style="text-align:justify;text-indent:4em">{{.Desc}}</p>
+							<p style="text-align:right"><small>{{.Time}}</small>&nbsp;&nbsp;{{.Address}}</p>
+						</figcaption>
+					</figure>
+				</div>
+			</div>
+			{{end}}
+		</div>
+		<!-- Add Pagination -->
+		<div class="swiper-pagination swiper-pagination-white"></div>
+		<!-- Add Navigation -->
+		<div class="swiper-button-prev"></div>
+		<div class="swiper-button-next"></div>
 	</div>
 
 	<div class="modal fade" id="editEvent" tabindex="-1" role="dialog" aria-labelledby="editEventLabel">
 		{{template "edit-event"}}
-	</div>
-	<div class="modal fade" id="bigImg" tabindex="-1" role="dialog" aria-labelledby="bigImgLabel">
-		{{template "big-img"}}
 	</div>
 
 	<script src="js/jquery-3.2.1.min.js"></script>
@@ -64,6 +80,7 @@
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 	{{end}}
 	<script src="js/qiniu.min.js"></script>
+	<script src="js/swiper.jquery.min.js"></script>
 	<script src="laydate/laydate.js"></script>
 	<script src="xiaobai/js/xb.js"></script>
 </body>
