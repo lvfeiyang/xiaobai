@@ -17,6 +17,7 @@
 		width: 300px;
 	}
 	.div-img {
+		position: relative;
 		left: 30px;
 	}
 }
