@@ -215,7 +215,12 @@ $(function() {
 })
 function mobileFold() {
 	var i = parseInt($(this).attr('id'), 10);
-	$(this).css('top', i*70+'px');
+	// $(this).css('top', 300+i*70+'px');
+	$(this).children('img,p,div').addClass('hidden');
+	$(this).attr('onclick', 'showActive('+i+')');
+}
+function showActive(index) {
+	$('.div-img#'+index).children('img,p,div').toggleClass('hidden').toggleClass('show');
 }
 function randomChange() {
 	var rR = parseInt(11*Math.random()-5, 10);
