@@ -220,6 +220,7 @@ function toBig(index) {
 	$('.div-img-box').removeClass('show').addClass('hidden');
 	$('.big-img-box').removeClass('hidden').addClass('show');
 	var swiper = new Swiper('.swiper-container', {
+		initialSlide: index,
 		zoom: true,
 		nextButton: '.swiper-button-next',
 		prevButton: '.swiper-button-prev'
