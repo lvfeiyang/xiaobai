@@ -26,7 +26,7 @@
 	{{$CanModify := .CanModify}}
 	<div class="div-img-box">
 		{{range $i, $_ := .EventList}}
-		<div class="thumbnail div-img">
+		<div class="thumbnail div-img" id={{$i}}>
 			<h2>{{.Title}}</h2>
 			<img src="{{.Image}}?imageView2/4/w/300/h/300" alt="图片被狗吃了" onclick="toBig({{$i}})" />
 			<p>{{.Desc}}</p>

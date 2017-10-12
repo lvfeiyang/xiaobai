@@ -16,4 +16,7 @@
 	.big-img-box figure,img {
 		width: 300px;
 	}
+	.div-img {
+		position: absolute;
+	}
 }

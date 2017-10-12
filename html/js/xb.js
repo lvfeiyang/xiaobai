@@ -207,12 +207,16 @@ $(function() {
 	LeonInit();
 
 	if (window.matchMedia("(max-width: 700px)").matches) {
-		;
+		$('.div-img').each(mobileFold);
 	} else {
 		// 随机变换图片
 		$('.div-img').each(randomChange);
 	}
 })
+function mobileFold() {
+	var i = parseInt($(this).attr('id'), 10);
+	$(this).css('top', i*70+'px');
+}
 function randomChange() {
 	var rR = parseInt(11*Math.random()-5, 10);
 	var rTx = parseInt(21*Math.random()-10, 10);
