@@ -206,8 +206,12 @@ function saveEvent(eventId) {
 $(function() {
 	LeonInit();
 
-	// 随机变换图片
-	$('.div-img').each(randomChange);
+	if (window.matchMedia("(max-width: 700px)").matches) {
+		;
+	} else {
+		// 随机变换图片
+		$('.div-img').each(randomChange);
+	}
 })
 function randomChange() {
 	var rR = parseInt(11*Math.random()-5, 10);
