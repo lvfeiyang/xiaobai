@@ -2,10 +2,11 @@ package message
 
 import (
 	"encoding/json"
+	"github.com/lvfeiyang/proxy/common"
 	"github.com/lvfeiyang/proxy/common/session"
 	"github.com/lvfeiyang/xiaobai/common/db"
 	"gopkg.in/mgo.v2/bson"
-	"regexp"
+	// "regexp"
 )
 
 type EventInfoReq struct {
@@ -33,14 +34,15 @@ func (req *EventInfoReq) Handle(sess *session.Session) ([]byte, error) {
 	if bson.IsObjectIdHex(req.Id) {
 		(&e).GetById(bson.ObjectIdHex(req.Id))
 	}
-	rsp := &EventInfoRsp{e.Time, e.Address, e.Title, ImgUrlAddQn(e.Image), e.Desc}
+	rsp := &EventInfoRsp{e.Time, e.Address, e.Title, common.ImgUrlAddQn(e.Image), e.Desc}
 	if rspJ, err := rsp.Encode(); err != nil {
 		return nil, err
 	} else {
 		return rspJ, nil
 	}
 }
-func ImgUrlAddQn(img string) string {
+
+/*func ImgUrlAddQn(img string) string {
 	domainMapUrl := map[string]string{
 		"xiaobai": "http://ov4dqx58l.bkt.clouddn.com",
 	}
@@ -52,7 +54,7 @@ func ImgUrlAddQn(img string) string {
 		}
 	}
 	return img
-}
+}*/
 
 type EventSaveReq struct {
 	Id      string

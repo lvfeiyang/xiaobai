@@ -92,7 +92,7 @@ func xiaobaiHandler(w http.ResponseWriter, r *http.Request) {
 			flog.LogFile.Println(err)
 		}
 		for _, v := range es {
-			view.EventList = append(view.EventList, oneView{v.Id.Hex(), v.Time, v.Address, v.Title, message.ImgUrlAddQn(v.Image), v.Desc})
+			view.EventList = append(view.EventList, oneView{v.Id.Hex(), v.Time, v.Address, v.Title, common.ImgUrlAddQn(v.Image), v.Desc})
 		}
 		if err := t.Execute(w, view); err != nil {
 			flog.LogFile.Println(err)
