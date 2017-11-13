@@ -3,6 +3,12 @@
 	display: inline-block;
 	margin: 5px 10px;
 }
+.big-img-box figure {
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+}
 .img-caption {
 	position: absolute;
 	width: 100%;
